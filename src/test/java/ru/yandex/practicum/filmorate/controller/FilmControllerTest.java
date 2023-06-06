@@ -60,7 +60,7 @@ public class FilmControllerTest {
     }
 
     @Test
-    void IncorrectDurationIsNegativeTest() throws Exception {
+    void incorrectDurationIsNegativeTest() throws Exception {
         testFilm.setDuration(-1);
         mockMvc.perform(post("/films")
                         .content(objectMapper.writeValueAsString(testFilm))
@@ -69,7 +69,7 @@ public class FilmControllerTest {
     }
 
     @Test
-    void InvalidDurationTest() throws Exception {
+    void invalidDurationTest() throws Exception {
         testFilm.setDuration(0);
         mockMvc.perform(post("/films")
                         .content(objectMapper.writeValueAsString(testFilm))
