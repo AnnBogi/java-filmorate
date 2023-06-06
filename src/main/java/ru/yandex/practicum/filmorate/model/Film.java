@@ -14,12 +14,13 @@ import java.time.LocalDate;
 @Builder
 public class Film {
 
-    private int id;
+    public int id;
     @NotBlank(message = "имя не должно быть пустым")
     private String name;
     @Size(max = 200)
     private String description;
-    @Past(message = "дата релиза — не раньше 28 декабря 1895 года")
+    @Past(message = "Дата релиза не может быть в будущем")
+
     private LocalDate releaseDate;
     @Positive(message = "продолжительность не должна быть отрицательной")
     private int duration;

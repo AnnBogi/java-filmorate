@@ -25,17 +25,17 @@ public class FilmController {
         filmValidation(film);
         film.setId(getIdForFilm());
         films.put(film.getId(), film);
-        log.info("Запрос на добавление фильма. Фильм добавлен");
+        log.info("Запрос на добавление фильма. Фильм с ID: {id} добавлен");
 
         return film;
     }
 
     @PutMapping
     public Film changeFilm(@Valid @RequestBody Film film) {
-        if (films.get(film.getId()) != null) {
+        if (films.containsKey(film.getId())) {
             filmValidation(film);
             films.put(film.getId(), film);
-            log.info("Запрос на изменение фильма. Фильм изменён.");
+            log.info("Запрос на изменение фильма. Фильм с ID: {id} изменён.");
         } else {
             log.error("Запрос на изменение фильма. Фильм не найден.");
             throw new FilmException("Фильм не найден.");

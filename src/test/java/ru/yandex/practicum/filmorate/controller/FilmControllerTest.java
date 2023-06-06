@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.yandex.practicum.filmorate.model.Film;
-
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,7 +28,7 @@ public class FilmControllerTest {
         testFilm = Film.builder()
                 .name("Тестовый фильм")
                 .description("Тестовое описание тестового фильма")
-                .releaseDate(LocalDate.of(1993, 04,07))
+                .releaseDate(LocalDate.of(1993, 04, 07))
                 .duration(99)
                 .build();
 
@@ -46,6 +45,11 @@ public class FilmControllerTest {
                 .andExpect(jsonPath("$.id").value("1"));
     }
 
+
+
+
+
+
     @Test
     void createFilm_NameIsBlank_badRequestTest() throws Exception {
         testFilm.setName("");
@@ -54,6 +58,25 @@ public class FilmControllerTest {
                         .contentType("application/json"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void IncorrectDurationIsNegativeTest() throws Exception {
+        testFilm.setDuration(-1);
+        mockMvc.perform(post("/films")
+                        .content(objectMapper.writeValueAsString(testFilm))
+                        .contentType("application/json"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void InvalidDurationTest() throws Exception {
+        testFilm.setDuration(0);
+        mockMvc.perform(post("/films")
+                        .content(objectMapper.writeValueAsString(testFilm))
+                        .contentType("application/json"))
+                .andExpect(status().isBadRequest());
+    }
+
 
     @Test
     void createFilm_IncorrectDescription_badRequestTest() throws Exception {
@@ -83,5 +106,6 @@ public class FilmControllerTest {
                         .contentType("application/json"))
                 .andExpect(status().isBadRequest());
     }
+
 
 }

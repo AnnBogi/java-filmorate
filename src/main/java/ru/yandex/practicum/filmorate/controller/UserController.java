@@ -25,16 +25,16 @@ public class UserController {
         userValidation(user);
         user.setId(getIdForUser());
         users.put(user.getId(), user);
-        log.info("Запрос на добавление пользователя. Пользователь добавлен.");
+        log.info("Запрос на добавление пользователя. Пользователь с ID: {id} добавлен.");
         return user;
     }
 
     @PutMapping
     public User changeUser(@Valid @RequestBody User user) {
-        if (users.get(user.getId()) != null) {
+        if (users.containsKey(user.getId())) {
             userValidation(user);
             users.put(user.getId(), user);
-            log.info("Запрос на изменение пользователя. Пользователь изменен.");
+            log.info("Запрос на изменение пользователя. Пользователь с ID: {id} изменен.");
         } else {
             log.error("Запрос на изменение пользователя. Пользователь не найден.");
             throw new UserException("Пользователь не найден.");
