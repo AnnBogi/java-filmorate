@@ -43,4 +43,7 @@ build/
 .vscode/
 
 *.db
-db/*
+db/*!/mvnw
+!/mvnw
+!/mvnw.cmd
+
