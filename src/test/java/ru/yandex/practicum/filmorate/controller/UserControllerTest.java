@@ -43,9 +43,9 @@ class UserControllerTest {
     @Test
     void createUser_BirthdayInFuture_badRequestTest()  {
         testUser.setBirthday(LocalDate.parse("2024-10-12"));
-        try{
+        try {
             controller.create(testUser);
-        } catch (ValidationException e){
+        } catch (ValidationException e) {
             assertEquals("Неверно указана дата рождения", e.getMessage());
         }
     }
