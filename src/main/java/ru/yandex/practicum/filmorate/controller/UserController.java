@@ -34,9 +34,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}/friends/{friendId}")
-    public User addFriend(@PathVariable String id, @PathVariable String friendId) {
+    public User addFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
         log.info("A friend request has been received.");
-        return userService.addFriend(Integer.parseInt(id), Integer.parseInt(friendId));
+        return userService.addFriend(id, friendId);
     }
 
     @GetMapping
@@ -53,21 +53,21 @@ public class UserController {
 
 
     @GetMapping("/{id}/friends")
-    public List<User> getFriends(@PathVariable String id) {
+    public List<User> getFriends(@PathVariable Integer id) {
         log.info("A request has been received for a list of friends.");
-        return userService.getUserFriends(Integer.parseInt(id));
+        return userService.getUserFriends(id);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public List<User> getMutualFriends(@PathVariable String id, @PathVariable String otherId) {
+    public List<User> getMutualFriends(@PathVariable Integer id, @PathVariable Integer otherId) {
         log.info("A request has been received for a list of mutual friends.");
-        return userService.getMutualFriends(Integer.parseInt(id), Integer.parseInt(otherId));
+        return userService.getMutualFriends(id, otherId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
-    public void deleteFriend(@PathVariable String id, @PathVariable String friendId) {
+    public void deleteFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
         log.info("I received a request to be removed from friends.");
-        userService.deleteFriend(Integer.parseInt(id), Integer.parseInt(friendId));
+        userService.deleteFriend(id, friendId);
     }
 
 }

@@ -31,10 +31,10 @@ public class FilmController {
         return filmStorage.updateFilm(film);
     }
 
-    @PutMapping("/{id}/like/{filmId}")
-    public void like(@PathVariable String id, @PathVariable String filmId) {
+    @PutMapping("{filmId}/like/{userId}")
+    public void like(@PathVariable Integer filmId, @PathVariable Integer userId) {
         log.info("A request has been received to assign a like to the movie.");
-        filmService.like(Integer.parseInt(id), Integer.parseInt(filmId));
+        filmService.like(filmId, userId);
     }
 
     @GetMapping()
@@ -44,21 +44,21 @@ public class FilmController {
     }
 
     @GetMapping("/{id}")
-    public Film getFilm(@PathVariable String id) {
+    public Film getFilm(@PathVariable Integer id) {
         log.info("Received a GET-request to receive a movie");
-        return filmStorage.getFilmById(Integer.parseInt(id));
+        return filmStorage.getFilmById(id);
     }
 
     @GetMapping("/popular")
-    public List<Film> getBestFilms(@RequestParam(defaultValue = "10") String count) {
+    public List<Film> getBestFilms(@RequestParam(defaultValue = "10") Integer count) {
         log.info("A request has been received for a list of popular films.");
-        return filmService.getTopFilms(Integer.parseInt(count));
+        return filmService.getTopFilms(count);
     }
 
     @DeleteMapping("/{id}/like/{filmId}")
-    public void deleteLike(@PathVariable String id, @PathVariable String filmId) {
+    public void deleteLike(@PathVariable Integer id, @PathVariable Integer filmId) {
         log.info("A request has been received to remove a like from the film.");
-        filmService.deleteLike(Integer.parseInt(filmId), Integer.parseInt(id));
+        filmService.deleteLike(filmId, id);
     }
 
 }

@@ -36,9 +36,9 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User updateUser(User user) {
-        if (users.get(user.getId()) != null) {
+        if (users.containsKey(user.getId())) {
             userValidation(user);
-            user.setFriends(new HashSet<>());
+            user.setFriends(users.get(user.getId()).getFriends());
             users.put(user.getId(), user);
             log.info("A request to change the user has been received. The user has been modified.");
         } else {
