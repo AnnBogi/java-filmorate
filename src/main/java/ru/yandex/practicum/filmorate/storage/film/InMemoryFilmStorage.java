@@ -37,7 +37,6 @@ public class InMemoryFilmStorage implements FilmStorage {
     public Film updateFilm(Film film) {
         if (films.containsKey(film.getId())) {
             filmValidation(film);
-            film.setLikes(films.get(film.getId()).getLikes());
             films.put(film.getId(), film);
             log.info("A request has been received to modify the film. The film has been modified.");
         } else {
