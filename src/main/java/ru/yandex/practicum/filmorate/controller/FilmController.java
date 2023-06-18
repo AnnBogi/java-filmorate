@@ -32,9 +32,9 @@ public class FilmController {
     }
 
     @PutMapping("/{id}/like/{filmId}")
-    public void like(@PathVariable String id, @PathVariable String filmId) {
-        log.info("Поступил запрос на присвоение лайка фильму.");
-        filmService.like(Integer.parseInt(id), Integer.parseInt(filmId));
+    public void like(@PathVariable Integer id, @PathVariable Integer filmId) {
+        log.info("A request has been received to assign a like to the movie.");
+        filmService.like(id, filmId);
     }
 
     @GetMapping()
