@@ -46,9 +46,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable String id) {
+    public User getUserById(@PathVariable Integer id) {
         log.info("A request has been received to get a user by id.");
-        return userStorage.getUserById(Integer.parseInt(id));
+        return userStorage.getUserById(id);
     }
 
 

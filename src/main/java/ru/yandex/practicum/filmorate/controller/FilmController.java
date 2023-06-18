@@ -31,10 +31,10 @@ public class FilmController {
         return filmStorage.updateFilm(film);
     }
 
-    @PutMapping("/{id}/like/{filmId}")
-    public void like(@PathVariable Integer id, @PathVariable Integer filmId) {
+    @PutMapping("/{filmId}/like/{userId}")
+    public void like(@PathVariable Integer filmId, @PathVariable Integer userId) {
         log.info("A request has been received to assign a like to the movie.");
-        filmService.like(id, filmId);
+        filmService.like(filmId, userId);
     }
 
     @GetMapping()
@@ -50,9 +50,9 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public List<Film> getBestFilms(@RequestParam(defaultValue = "10") String count) {
+    public List<Film> getBestFilms(@RequestParam(defaultValue = "10") Integer count) {
         log.info("A request has been received for a list of popular films.");
-        return filmService.getTopFilms(Integer.parseInt(count));
+        return filmService.getTopFilms(count);
     }
 
     @DeleteMapping("/{id}/like/{filmId}")

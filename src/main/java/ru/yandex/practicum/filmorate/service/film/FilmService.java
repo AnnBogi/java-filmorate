@@ -20,18 +20,18 @@ public class FilmService {
         this.filmStorage = filmStorage;
     }
 
-    public void like(int filmId, int userId) {
+    public void like(Integer filmId, Integer userId) {
         filmStorage.getFilmById(filmId).getLikes().add(userId);
     }
 
 
-    public void deleteLike(int filmId, int userId) {
+    public void deleteLike(Integer filmId, Integer userId) {
         if (filmStorage.getFilmById(filmId).getLikes().contains(userId)) {
             filmStorage.getFilmById(filmId).getLikes().remove(userId);
         } else throw new NotFoundException("Пользователь не ставил лайк этому фильму.");
     }
 
-    public List<Film> getTopFilms(int count) {
+    public List<Film> getTopFilms(Integer count) {
         return filmStorage.findAllFilms().stream().sorted((film1, film2) ->
                         film2.getLikes().size() - film1.getLikes().size())
                 .limit(count).collect(Collectors.toList());
