@@ -33,10 +33,11 @@ public class InMemoryFilmStorage implements FilmStorage {
         log.info("A request has been received to add a movie. The movie has been added.");
         return film;
     }
-
+    @Override
     public Film updateFilm(Film film) {
         if (films.containsKey(film.getId())) {
             filmValidation(film);
+            film.setLikes(films.get(film.getId()).getLikes());
             films.put(film.getId(), film);
             log.info("A request has been received to modify the film. The film has been modified.");
         } else {
