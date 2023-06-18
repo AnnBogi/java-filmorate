@@ -33,6 +33,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         log.info("A request has been received to add a movie. The movie has been added.");
         return film;
     }
+
     @Override
     public Film updateFilm(Film film) {
         if (films.containsKey(film.getId())) {
