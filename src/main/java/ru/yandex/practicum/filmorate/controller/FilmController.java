@@ -31,10 +31,10 @@ public class FilmController {
         return filmStorage.updateFilm(film);
     }
 
-    @PutMapping("{filmId}/like/{userId}")
-    public void like(@PathVariable Integer filmId, @PathVariable Integer userId) {
+    @PutMapping("/{id}/like/{filmId}")
+    public void like(@PathVariable Integer id, @PathVariable Integer filmId) {
         log.info("A request has been received to assign a like to the movie.");
-        filmService.like(filmId, userId);
+        filmService.like(id, filmId);
     }
 
     @GetMapping()
