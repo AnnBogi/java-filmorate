@@ -25,7 +25,7 @@ public class FilmService {
     }
 
 
-    public void deleteLike(Integer filmId, Integer userId) {
+    public void deleteLike(Integer userId, Integer filmId) {
         if (filmStorage.getFilmById(filmId).getLikes().contains(userId)) {
             filmStorage.getFilmById(filmId).getLikes().remove(userId);
         } else throw new NotFoundException("Пользователь не ставил лайк этому фильму.");
