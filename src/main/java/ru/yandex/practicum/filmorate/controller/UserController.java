@@ -1,60 +1,73 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.UserException;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.user.UserService;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/users", produces = "application/json")
 public class UserController {
-    private final HashMap<Integer, User> users = new HashMap<>();
-    private int idForUser = 0;
+
+    private final UserStorage userStorage;
+    private final UserService userService;
 
 
     @PostMapping
     public User create(@Valid @RequestBody User user) {
-        userValidation(user);
-        user.setId(getIdForUser());
-        users.put(user.getId(), user);
-        log.info("Запрос на добавление пользователя. Пользователь с ID: {id} добавлен.");
-        return user;
+        log.info("A request has been received to create a user.");
+        return userStorage.addUser(user);
     }
 
     @PutMapping
     public User changeUser(@Valid @RequestBody User user) {
-        if (users.containsKey(user.getId())) {
-            userValidation(user);
-            users.put(user.getId(), user);
-            log.info("Запрос на изменение пользователя. Пользователь с ID: {id} изменен.");
-        } else {
-            log.error("Запрос на изменение пользователя. Пользователь не найден.");
-            throw new UserException("Пользователь не найден.");
-        }
-        return user;
+        log.info("A user update request has been received.");
+        return userStorage.updateUser(user);
+    }
+
+    @PutMapping("/{id}/friends/{friendId}")
+    public User addFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
+        log.info("A friend request has been received.");
+        return userService.addFriend(id, friendId);
     }
 
     @GetMapping
     public List<User> getUsers() {
-        return new ArrayList<>(users.values());
+        log.info("A request has been received for a list of users.");
+        return userStorage.findAllUsers();
+    }
+
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable Integer id) {
+        log.info("A request has been received to get a user by id.");
+        return userStorage.getUserById(id);
     }
 
 
-    private int getIdForUser() {
-        return ++idForUser;
+    @GetMapping("/{id}/friends")
+    public List<User> getFriends(@PathVariable Integer id) {
+        log.info("A request has been received for a list of friends.");
+        return userService.getUserFriends(id);
     }
 
-    private void userValidation(User user) throws ValidationException {
-        if (user.getName() == null) {
-            user.setName(user.getLogin());
-        }
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public List<User> getMutualFriends(@PathVariable Integer id, @PathVariable Integer otherId) {
+        log.info("A request has been received for a list of mutual friends.");
+        return userService.getMutualFriends(id, otherId);
     }
+
+    @DeleteMapping("/{id}/friends/{friendId}")
+    public void deleteFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
+        log.info("I received a request to be removed from friends.");
+        userService.deleteFriend(id, friendId);
+    }
+
 }
