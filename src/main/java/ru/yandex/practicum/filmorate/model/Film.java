@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.Builder;
 import lombok.Data;
+import ru.yandex.practicum.filmorate.validator.ReleaseDate;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -12,15 +13,16 @@ import java.util.Set;
 @Builder
 public class Film {
 
-    public int id;
-    @NotBlank(message = "имя не должно быть пустым")
+    private int id;
+    @NotBlank
     private String name;
+    @NotBlank
     @Size(max = 200)
     private String description;
-    @Past(message = "Дата релиза не может быть в будущем")
-
+    @NotNull
+    @ReleaseDate(message = "Некорректна указана дата релиза.")
     private LocalDate releaseDate;
-    @Positive(message = "продолжительность не должна быть отрицательной")
+    @Positive
     private int duration;
     private Set<Integer> likes;
     @NotNull
