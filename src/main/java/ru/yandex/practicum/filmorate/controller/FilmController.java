@@ -32,9 +32,9 @@ public class FilmController {
     }
 
     @PutMapping("/{filmId}/like/{userId}")
-    public void like(@PathVariable Integer filmId, @PathVariable Integer userId) {
+    public Film like(@PathVariable Integer filmId, @PathVariable Integer userId) {
         log.info("A request has been received to assign a like to the movie.");
-        filmService.like(filmId, userId);
+        return filmService.like(filmId, userId);
     }
 
     @GetMapping()
@@ -55,10 +55,10 @@ public class FilmController {
         return filmService.getTopFilms(count);
     }
 
-    @DeleteMapping("/{id}/like/{filmId}")
-    public void deleteLike(@PathVariable Integer id, @PathVariable Integer filmId) {
+    @DeleteMapping("/{filmId}/like/{userId}")
+    public Film deleteLike(@PathVariable Integer filmId, @PathVariable Integer userId) {
         log.info("A request has been received to remove a like from the film.");
-        filmService.deleteLike(filmId, id);
+        return filmService.deleteLike(filmId, userId);
     }
 
 }
