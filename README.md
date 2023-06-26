@@ -2,36 +2,35 @@
 Template repository for Filmorate project.
 
 
-![ER диаграмма.png](ER%20%E4%E8%E0%E3%F0%E0%EC%EC%E0.png)
+![диаграмма таблицы проекта](https://github.com/AnnBogi/java-filmorate/blob/add-database/ER%20диаграмма.png)
 
-Получение всех пользователей из таблицы:
-SELECT *
+##### _Получение всех пользователей из таблицы:_
+SELECT * <br/>
 FROM user;
 
-Запрос на получение общих друзей:
-SELECT login
-FROM (SELECT login
-FROM users
-WHERE user_id IN (SELECT friend_id
-FROM friends
-WHERE user_id = (int value)
-AND status = true))
-WHERE login IN (SELECT login
-FROM user
-WHERE user_id IN (SELECT friend_id
-FROM friends
-WHERE user_id = (int value)
+##### _Запрос на получение общих друзей:_
+SELECT login <br/>
+FROM (SELECT login<br/>
+FROM users<br/>
+WHERE user_id IN (SELECT friend_id<br/>
+FROM friends<br/>
+WHERE user_id = (int value)<br/> 
+AND status = true))<br/>
+WHERE login IN (SELECT login<br/>
+FROM user<br/>
+WHERE user_id IN (SELECT friend_id<br/>
+FROM friends<br/>
+WHERE user_id = (int value)<br/>
 AND status = true));
 
-Запрос на получение списка всех фильмов:
-SELECT *
+##### _Запрос на получение списка всех фильмов:_
+SELECT *<br/>
 FROM films;
-
-Запрос на получение топ 10 популярных фильмов:
-SELECT *
-FROM film
-WHERE film_id IN (SELECT film_id, count(user_id) AS likes_count
-FROM likes
-GROUP BY film_id
-ORDER BY likes_count DESC
+##### _Запрос на получение топ 10 популярных фильмов:_
+SELECT *<br/>
+FROM film<br/>
+WHERE film_id IN (SELECT film_id, count(user_id) AS likes_count<br/>
+FROM likes<br/>
+GROUP BY film_id<br/>
+ORDER BY likes_count DESC<br/>
 LIMIT (10));
