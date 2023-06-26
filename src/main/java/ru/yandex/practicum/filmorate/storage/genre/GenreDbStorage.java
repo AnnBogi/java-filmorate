@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.storage.genre;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class GenreDbStorage implements GenreStorage {
 
@@ -45,15 +45,15 @@ public class GenreDbStorage implements GenreStorage {
     }
 
     public void addGenresForCurrentFilm(Film film) {
-        if (Objects.isNull(film.getGenres())) {
-            return;
+        Set<Genre> genres = film.getGenres();
+        if (genres != null && !genres.isEmpty()) {
+            for (Genre genre : genres) {
+                String sqlQuery = "INSERT INTO genre(film_id, genre_id) VALUES (?, ?)";
+                jdbcTemplate.update(sqlQuery,
+                        film.getId(),
+                        genre.getId());
+            }
         }
-        film.getGenres().forEach(g -> {
-            String sqlQuery = "INSERT INTO genre(film_id, genre_id) VALUES (?, ?)";
-            jdbcTemplate.update(sqlQuery,
-                    film.getId(),
-                    g.getId());
-        });
     }
 
     public void updateGenresForCurrentFilm(Film film) {
